@@ -1,0 +1,72 @@
+import { createContext, useContext, useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
+import { dummyProducts } from "../assets/assets";
+import toast from "react-hot-toast";
+export const AppContext = createContext();
+export const AppContextProvider = ({ children }) => {
+  const currency = import.meta.VITE_CURRENCY;
+  const navigate = useNavigate();
+  const [user, setUser] = useState(null);
+  const [isSeller, setSeller] = useState(false);
+  const [showUserLogin, setShowUserLogin] = useState(false);
+  const [products, setProducts] = useState([]);
+  const [cartItems, setCartItems] = useState({});
+  // Fetch all products
+  const featchProducts = async () => {
+    setProducts(dummyProducts);
+  };
+  // Add products to carts
+  const addToCart = () => {
+    let cartData = structuredClone(cartItems);
+    if (cartData[itemId]) {
+      cartData[itemId] += 1;
+    } else {
+      cartData[tiemId] = 1;
+    }
+    setCartItems(cartData);
+    toast.success("Add to Carst");
+  };
+
+  //Update cart item quantity
+  const updateCartItem = (itemId, quantity) => {
+    let cartData = structuredClone(cartItems);
+    cartData[itemId] = quantity;
+    toast.success("Cart update");
+    setCartItems(cartData);
+  };
+  //Remove product from Cart
+  const removeFromCart = (itemId) => {
+    let cartData = structuredClone(cartItems);
+    if (cartData[itemId]) {
+      cartData[itemId] = -1;
+      if (cartData[itemId] === 0) {
+        delete cartData[itemId];
+      }
+    }
+    toast.success("Remove from cart");
+    setCartItems(cartData);
+  };
+  useEffect(() => {
+    featchProducts();
+  }, []);
+  const value = {
+    navigate,
+    user,
+    setUser,
+    isSeller,
+    setSeller,
+    showUserLogin,
+    setShowUserLogin,
+    products,
+    currency,
+    addToCart,
+    updateCartItem,
+    removeFromCart,
+    cartItems,
+  };
+  return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
+};
+
+export const useAppContext = () => {
+  return useContext(AppContext);
+};
