@@ -32,16 +32,22 @@ const ProductsCategory = () => {
               </h2>
             </div>
           </div>
-          <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 md:gap-6">
-            {filterProduct.map((product, index) => (
-              <div
-                key={index}
-                className="transition-transform transform duration-300 hover:scale-105"
-              >
-                <ProductCard product={product} />
-              </div>
-            ))}
-          </div>
+          {filterProduct.length > 0 ? (
+            <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 md:gap-6">
+              {filterProduct.map((product, index) => (
+                <div
+                  key={index}
+                  className="transition-transform transform duration-300 hover:scale-105"
+                >
+                  <ProductCard product={product} />
+                </div>
+              ))}
+            </div>
+          ) : (
+            <div className="flex items-center justify-center h-30">
+              Không có sản phẩm nào được tìm thấy trong bộ lọc
+            </div>
+          )}
         </>
       )}
     </div>

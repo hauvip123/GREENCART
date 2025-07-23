@@ -12,6 +12,7 @@ const Navbar = () => {
     navigate,
     setSearchQuery,
     searchQuery,
+    getCardCount,
   } = useAppContext();
   const logout = async () => {
     setUser(null);
@@ -52,7 +53,7 @@ const Navbar = () => {
             onClick={() => navigate("/cart")}
           />
           <button className="absolute -top-2 -right-3 text-xs text-white bg-primary hover:bg-primary-dull w-[18px] h-[18px] rounded-full">
-            3
+            {getCardCount()}
           </button>
         </div>
 
