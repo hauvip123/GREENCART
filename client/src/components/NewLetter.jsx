@@ -12,7 +12,7 @@ const NewLetter = () => {
         alt="bottom banner mobile"
         className="w-full md:hidden"
       />
-      <div className="absolute inset-0 flex flex-col items-center md:items-end md:justify-center pt-16 md:p-0 md:pr-24">
+      <div className="absolute inset-0 flex flex-col items-center md:items-end md:justify-center pt-20 md:p-0 md:pr-24">
         <h1 className="md:text-4xl text-2xl font-semibold">
           Never Miss a Deal!
         </h1>

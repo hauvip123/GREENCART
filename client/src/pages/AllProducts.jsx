@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useAppContext } from "../context/AppContext";
-import ProductCard from "../components/ProductCard";
+import ProductCart from "../components/ProductCart";
 
 const AllProducts = () => {
   const { products, searchQuery } = useAppContext();
@@ -36,7 +36,7 @@ const AllProducts = () => {
               key={index}
               className="transition-all duration-300 hover:scale-105"
             >
-              <ProductCard product={product} />
+              <ProductCart product={product} />
             </div>
           ))
         ) : (

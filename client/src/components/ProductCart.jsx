@@ -2,7 +2,7 @@ import { useState } from "react";
 import { assets } from "../assets/assets";
 import { useAppContext } from "../context/AppContext";
 import { useParams } from "react-router-dom";
-const ProductCard = ({ product }) => {
+const ProductCart = ({ product }) => {
   const { currency, addToCart, removeFromCart, cartItems, navigate } =
     useAppContext();
   return (
@@ -85,4 +85,4 @@ const ProductCard = ({ product }) => {
     )
   );
 };
-export default ProductCard;
+export default ProductCart;

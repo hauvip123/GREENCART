@@ -48,7 +48,7 @@ export const AppContextProvider = ({ children }) => {
     setCartItems(cartData);
   };
   // Get Card Item Count
-  const getCardCount = () => {
+  const getCartCount = () => {
     let totalCount = 0;
     for (const item in cartItems) {
       totalCount += cartItems[item];
@@ -84,7 +84,7 @@ export const AppContextProvider = ({ children }) => {
     cartItems,
     searchQuery,
     setSearchQuery,
-    getCardCount,
+    getCartCount,
     getCardAmount,
   };
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;

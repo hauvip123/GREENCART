@@ -2,7 +2,7 @@ import { useEffect, useState } from "react";
 import { useAppContext } from "../context/AppContext";
 import { Link, useParams } from "react-router-dom";
 import { assets } from "../assets/assets";
-import ProductCard from "../components/ProductCard";
+import ProductCart from "../components/ProductCart";
 const ProductDetail = () => {
   const { products, addToCart, navigate, currency } = useAppContext();
   const { id } = useParams();
@@ -119,7 +119,7 @@ const ProductDetail = () => {
             {relatedProducts
               .filter((product) => product.inStock)
               .map((item, index) => {
-                return <ProductCard product={item} key={index} />;
+                return <ProductCart product={item} key={index} />;
               })}
           </div>
           <button

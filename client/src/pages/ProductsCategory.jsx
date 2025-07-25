@@ -2,7 +2,7 @@ import React from "react";
 import { useAppContext } from "../context/AppContext";
 import { useParams } from "react-router-dom";
 import { categories } from "../assets/assets";
-import ProductCard from "../components/ProductCard";
+import ProductCart from "../components/ProductCart";
 
 const ProductsCategory = () => {
   const { products } = useAppContext();
@@ -39,7 +39,7 @@ const ProductsCategory = () => {
                   key={index}
                   className="transition-transform transform duration-300 hover:scale-105"
                 >
-                  <ProductCard product={product} />
+                  <ProductCart product={product} />
                 </div>
               ))}
             </div>

@@ -1,5 +1,5 @@
 import React from "react";
-import ProductCard from "./ProductCard";
+import ProductCart from "./ProductCart";
 import { useAppContext } from "../context/AppContext";
 const BestSeller = () => {
   const { products } = useAppContext();
@@ -11,7 +11,7 @@ const BestSeller = () => {
           .filter((product) => product.inStock)
           .slice(0, 5)
           .map((item, index) => {
-            return <ProductCard product={item} key={index} />;
+            return <ProductCart product={item} key={index} />;
           })}
       </div>
     </div>
