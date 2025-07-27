@@ -1,0 +1,54 @@
+# ========================================
+# 🔒 GENERAL IGNORE
+# ========================================
+
+# Node modules (client + server)
+**/node_modules/
+
+# Environment variable files
+**/.env
+
+# Log files
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Editor settings
+.vscode/
+.idea/
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# ========================================
+# 📦 CLIENT (Vite, React)
+# ========================================
+
+# Build output (Vite)
+client/dist/
+
+# Local development server cache (Vite)
+client/.vite/
+
+# ESLint/Prettier cache
+client/.eslintcache
+
+# 👉 GIỮ package-lock.json để đảm bảo version ổn định
+
+# ========================================
+# 🔧 SERVER (Express, Node.js)
+# ========================================
+
+# Compiled output (if using TypeScript or build)
+server/build/
+server/dist/
+
+# PM2 process logs (nếu dùng PM2 để deploy)
+server/pids
+server/logs
+server/*.pid
+server/*.seed
+
+

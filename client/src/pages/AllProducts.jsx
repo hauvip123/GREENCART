@@ -110,7 +110,7 @@ const AllProducts = () => {
               <button
                 key={category}
                 onClick={() => setFilterCategory(category)}
-                className={`px-4 py-2 rounded-full text-sm font-medium transition-all duration-300 ${
+                className={`px-4 py-2 rounded-full text-sm cursor-pointer font-medium transition-all duration-300 ${
                   filterCategory === category
                     ? "bg-primary text-white shadow-lg transform scale-105"
                     : "bg-gray-100 text-gray-700 hover:bg-gray-200 hover:scale-105"
@@ -127,7 +127,7 @@ const AllProducts = () => {
             <select
               value={sortBy}
               onChange={(e) => setSortBy(e.target.value)}
-              className="px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-primary transition-colors duration-300"
+              className="px-3 cursor-pointer py-2 border border-gray-300 rounded-lg focus:outline-none focus:border-primary transition-colors duration-300"
             >
               <option value="name">Name (A-Z)</option>
               <option value="price-low">Price (Low to High)</option>
