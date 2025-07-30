@@ -2,10 +2,22 @@ import { LogOut } from "lucide-react";
 import { assets } from "../../assets/assets";
 import { useAppContext } from "../../context/AppContext";
 import { Link, NavLink, Outlet } from "react-router-dom";
+import toast from "react-hot-toast";
+
 const SellerLayout = () => {
-  const { setIsSeller } = useAppContext();
+  const { setIsSeller, axios, navigate } = useAppContext();
   const logout = async () => {
-    setIsSeller(false);
+    try {
+      const { data } = await axios.get("/api/seller/logout");
+      if (data.success) {
+        toast.success(data.message);
+        navigate("/");
+      } else {
+        toast.success(data.message);
+      }
+    } catch (error) {
+      toast.error(error.message);
+    }
   };
   const sidebarLinks = [
     { name: "Add Product", path: "/seller", icon: assets.add_icon },

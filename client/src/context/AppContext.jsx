@@ -2,6 +2,9 @@ import { createContext, useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { dummyProducts } from "../assets/assets";
 import toast from "react-hot-toast";
+import axios from "axios";
+axios.defaults.withCredentials = true;
+axios.defaults.baseURL = import.meta.env.VITE_BACKEND_URL;
 export const AppContext = createContext();
 export const AppContextProvider = ({ children }) => {
   const currency = import.meta.VITE_CURRENCY;
@@ -12,6 +15,20 @@ export const AppContextProvider = ({ children }) => {
   const [products, setProducts] = useState([]);
   const [cartItems, setCartItems] = useState({});
   const [searchQuery, setSearchQuery] = useState({});
+
+  //Fetch Sellect status
+  const fetchSeller = async () => {
+    try {
+      const { data } = await axios.get("/api/seller/is-auth");
+      if (data.success) {
+        setIsSeller(true);
+      } else {
+        setIsSeller(false);
+      }
+    } catch (error) {
+      setIsSeller(false);
+    }
+  };
   // Fetch all products
   const featchProducts = async () => {
     setProducts(dummyProducts);
@@ -67,6 +84,7 @@ export const AppContextProvider = ({ children }) => {
   };
   useEffect(() => {
     featchProducts();
+    fetchSeller();
   }, []);
   const value = {
     navigate,
@@ -86,6 +104,7 @@ export const AppContextProvider = ({ children }) => {
     setSearchQuery,
     getCartCount,
     getCardAmount,
+    axios,
   };
   return <AppContext.Provider value={value}>{children}</AppContext.Provider>;
 };
