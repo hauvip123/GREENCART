@@ -3,6 +3,7 @@ import { NavLink } from "react-router-dom";
 import Logo from "../assets/logo.svg";
 import { assets } from "../assets/assets.js";
 import { useAppContext } from "../context/AppContext.jsx";
+import toast from "react-hot-toast";
 const Navbar = () => {
   const [open, setOpen] = useState(false);
   const {
@@ -13,10 +14,21 @@ const Navbar = () => {
     setSearchQuery,
     searchQuery,
     getCartCount,
+    axios,
   } = useAppContext();
   const logout = async () => {
-    setUser(null);
-    navigate("/");
+    try {
+      const { data } = await axios.get("/api/user/logout");
+      if (data.success) {
+        setUser(null);
+        navigate("/");
+        toast.success(data.message);
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+      toast.error(error.message);
+    }
   };
   useEffect(() => {
     if (searchQuery.length > 0) {
