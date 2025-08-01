@@ -14,6 +14,7 @@ const Cart = () => {
     navigate,
     axios,
     user,
+    setCartItems,
   } = useAppContext();
   const [showAddress, setShowAddress] = useState(false);
   const [cartArray, setCartArray] = useState([]);
@@ -52,7 +53,32 @@ const Cart = () => {
       getUserAddress();
     }
   }, [user]);
-  const placeOrder = async () => {};
+  const placeOrder = async () => {
+    try {
+      if (!selectAddress) {
+        return toast.error("Please select an address");
+      }
+      if (paymantOption === "COD") {
+        const { data } = await axios.post("/api/order/cod", {
+          userId: user._id,
+          items: cartArray.map((item) => ({
+            product: item._id,
+            quantity: item.quantity,
+          })),
+          address: selectAddress._id,
+        });
+        if (data.success) {
+          toast.success(data.message);
+          setCartItems({});
+          navigate("/my-orders");
+        } else {
+          toast.error(data.message);
+        }
+      }
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
   return products.length > 0 && cartItems ? (
     <div className="flex flex-col md:flex-row mt-16">
       <div className="flex-1 max-w-4xl">
@@ -224,7 +250,7 @@ const Cart = () => {
         </div>
 
         <button
-          // onClick={placeOrder}
+          onClick={placeOrder}
           className="w-full py-3 mt-6 cursor-pointer bg-primary text-white font-medium hover:bg-primary-dull transition"
         >
           {paymantOption === "COD" ? "Place Order" : "Proceed to Checkout"}

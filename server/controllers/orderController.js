@@ -9,7 +9,7 @@ export const placeOrderCOD = async (req, res) => {
       return res.json({ success: true, message: "Invalid data" });
     }
     // Calculate Amount Using Items
-    const amount = await items.reduce(async (acc, item) => {
+    let amount = await items.reduce(async (acc, item) => {
       const product = await Product.findById(item.product);
       return (await acc) + product.offerPrice * item.quantity;
     }, 0);
@@ -31,9 +31,8 @@ export const placeOrderCOD = async (req, res) => {
 // Get Orders by User ID : /api/order/user
 export const getUserOrders = async (req, res) => {
   try {
-    const { userId } = req.body;
     const orders = await Order.find({
-      userId,
+      userId: req.userId,
       $or: [{ paymentType: "COD" }, { isPaid: true }],
     })
       .populate("items.product address")

@@ -17,7 +17,9 @@ const ProductCart = ({ product }) => {
     product && (
       <div
         onClick={() =>
-          navigate(`/products/${product.category.toLowerCase()}/${product._id}`)
+          navigate(
+            `/products/${product.category[0].toLowerCase()}/${product._id}`
+          )
         }
         className="group relative border border-gray-200/50 rounded-2xl md:px-5 px-4 py-4 bg-white min-w-56 max-w-56 w-full cursor-pointer transform transition-all duration-500 hover:scale-105 hover:-translate-y-2 hover:shadow-2xl hover:border-primary/30 overflow-hidden"
         style={{
