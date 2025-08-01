@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { useAppContext } from "../context/AppContext";
 import { assets, dummyAddress } from "../assets/assets";
+import toast from "react-hot-toast";
 const Cart = () => {
   const {
     products,
@@ -11,11 +12,13 @@ const Cart = () => {
     getCardAmount,
     updateCartItem,
     navigate,
+    axios,
+    user,
   } = useAppContext();
   const [showAddress, setShowAddress] = useState(false);
   const [cartArray, setCartArray] = useState([]);
-  const [addresses, setAddresses] = useState(dummyAddress);
-  const [selectAddress, setSelectAddress] = useState(dummyAddress[0]);
+  const [addresses, setAddresses] = useState([]);
+  const [selectAddress, setSelectAddress] = useState(null);
   const [paymantOption, setPaymentOption] = useState("COD");
   const getCart = () => {
     const Products = [];
@@ -26,11 +29,29 @@ const Cart = () => {
     }
     setCartArray(Products);
   };
+  const getUserAddress = async () => {
+    try {
+      const { data } = await axios.get("/api/address/get");
+      if (data.success) {
+        setAddresses(data.addresses);
+        if (data.addresses.length > 0) {
+          setSelectAddress(data.addresses[0]);
+        }
+      }
+    } catch (error) {
+      toast.error(error.message);
+    }
+  };
   useEffect(() => {
     if (products.length > 0 && cartItems) {
       getCart();
     }
   }, [products, cartItems]);
+  useEffect(() => {
+    if (user) {
+      getUserAddress();
+    }
+  }, [user]);
   const placeOrder = async () => {};
   return products.length > 0 && cartItems ? (
     <div className="flex flex-col md:flex-row mt-16">
@@ -134,7 +155,7 @@ const Cart = () => {
           <div className="relative flex justify-between items-start mt-2">
             <p className="text-gray-500">
               {selectAddress
-                ? `${selectAddress.street},${selectAddress.state},${selectAddress.city},${selectAddress.country}`
+                ? `${selectAddress.street}, ${selectAddress.state}, ${selectAddress.city}, ${selectAddress.country}`
                 : " No address found"}
             </p>
             <button
@@ -155,7 +176,7 @@ const Cart = () => {
                       }}
                       className="text-gray-500 p-2 hover:bg-gray-100"
                     >
-                      {address.street},{address.state},{address.city},
+                      {address.street}, {address.state}, {address.city},{" "}
                       {address.country}
                     </p>
                   );

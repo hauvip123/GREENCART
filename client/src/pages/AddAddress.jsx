@@ -1,5 +1,7 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { assets } from "../assets/assets";
+import { useAppContext } from "../context/AppContext";
+import toast from "react-hot-toast";
 const InputFiled = ({ type, placeholder, name, handleChange, address }) => (
   <input
     type={type}
@@ -12,6 +14,7 @@ const InputFiled = ({ type, placeholder, name, handleChange, address }) => (
   />
 );
 const AddAddress = () => {
+  const { user, navigate, axios } = useAppContext();
   const [address, setAddress] = useState({
     firstName: "",
     lastName: "",
@@ -19,9 +22,9 @@ const AddAddress = () => {
     street: "",
     city: "",
     state: "",
-    zcode: null,
+    zcode: "",
     country: "",
-    phone: null,
+    phone: "",
   });
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -29,7 +32,24 @@ const AddAddress = () => {
   };
   const onSubmitHandler = async (e) => {
     e.preventDefault();
+    try {
+      const { data } = await axios.post("/api/address/add", { address });
+      if (data.success) {
+        navigate("/cart");
+        toast.success(data.message);
+      } else {
+        toast.error(data.message);
+      }
+    } catch (error) {
+      toast.error(error.message);
+    }
   };
+  useEffect(() => {
+    if (!user) {
+      navigate("/cart");
+      toast.error("You need login");
+    }
+  }, []);
   return (
     <div className="mt-16 pb-16">
       <div className="text-2xl md:text-3xl text-gray-500">
@@ -89,7 +109,7 @@ const AddAddress = () => {
               <InputFiled
                 handleChange={handleChange}
                 address={address}
-                name="zcode"
+                name="zipcode"
                 type="number"
                 placeholder="Zip Code"
               />
