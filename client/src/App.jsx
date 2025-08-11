@@ -17,6 +17,7 @@ import SellerLayout from "./pages/seller/SellerLayout.jsx";
 import AddProduct from "./pages/seller/AddProduct.jsx";
 import ProductList from "./pages/seller/ProductList.jsx";
 import Orders from "./pages/seller/Orders.jsx";
+import Dashboard from "./pages/seller/Dashboard.jsx";
 const App = () => {
   const isSellerPath = useLocation().pathname.includes("/seller");
   const { showUserLogin, isSeller } = useAppContext();
@@ -40,10 +41,14 @@ const App = () => {
             path="/seller"
             element={isSeller ? <SellerLayout /> : <SellerLogin />}
           >
-            <Route index element={isSeller ? <AddProduct /> : null} />
+            <Route index element={isSeller ? <Dashboard /> : null} />
             <Route
               path="product-list"
               element={isSeller ? <ProductList /> : null}
+            />
+            <Route
+              path="add-product"
+              element={isSeller ? <AddProduct /> : null}
             />
             <Route path="orders" element={isSeller ? <Orders /> : null} />
           </Route>

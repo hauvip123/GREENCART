@@ -18,16 +18,17 @@ const AllProducts = () => {
   useEffect(() => {
     setIsLoading(true);
 
-    // Simulate loading delay for better UX
     const timer = setTimeout(() => {
-      let filtered = products;
+      let filtered = [...products];
 
       // Filter by search query
       if (searchQuery.length > 0) {
         filtered = filtered.filter(
           (product) =>
             product.name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-            product.category.toLowerCase().includes(searchQuery.toLowerCase())
+            product.category[0]
+              .toLowerCase()
+              .includes(searchQuery.toLowerCase())
         );
       }
 
@@ -38,7 +39,7 @@ const AllProducts = () => {
         );
       }
 
-      // Sort products
+      // Sort
       filtered = filtered.sort((a, b) => {
         switch (sortBy) {
           case "name":

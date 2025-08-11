@@ -24,7 +24,7 @@ const ProductList = () => {
   };
   return (
     <div className="flex-1 no-scrollbar h-[95vh] overflow-y-scroll flex flex-col justify-start">
-      <div className="w-full md:p-10 p-4">
+      <div className="w-full">
         <h2 className="pb-4 text-lg font-medium">All Products</h2>
         <div className="flex flex-col items-center max-w-4xl w-full overflow-hidden rounded-md bg-white border border-gray-500/20">
           <table className="md:table-auto table-fixed w-full overflow-hidden">
