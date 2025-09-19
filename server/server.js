@@ -1,34 +1,55 @@
 import express from "express";
 import cookieParser from "cookie-parser";
 import cors from "cors";
-import connectDB from "./configs/db.js";
 import "dotenv/config";
+
+import connectDB from "./configs/db.js";
+import connectCloudinary from "./configs/cloudinary.js";
+
+// Routers
 import userRouter from "./routes/userRoute.js";
 import sellerRouter from "./routes/sellerRoute.js";
-import connectCloudinary from "./configs/cloudinary.js";
 import productRouter from "./routes/productRoute.js";
 import cartRouter from "./routes/cartRoute.js";
 import addressRouter from "./routes/addressRoute.js";
 import orderRouter from "./routes/orderRoute.js";
+
 const app = express();
-const port = process.env.PORT || 4000;
-await connectDB();
-await connectCloudinary();
-// Allow multiple origins
-const allowerOrigins = ["http://localhost:5173"];
-// Middleware configuration
+
+// ====== Kết nối dịch vụ (DB, Cloudinary) ======
+try {
+  await connectDB();
+  await connectCloudinary();
+  console.log("✅ Database & Cloudinary connected");
+} catch (err) {
+  console.error("❌ Error connecting services:", err.message);
+}
+
+// ====== Middleware ======
+const allowedOrigins = [
+  "http://localhost:5173",
+  process.env.CLIENT_URL || "https://greencart-jynobi2gt-haus-projects-c39dc04f.vercel.app"
+];
+
 app.use(express.json());
 app.use(cookieParser());
-app.use(cors({ origin: allowerOrigins, credentials: true }));
+app.use(cors({ origin: allowedOrigins, credentials: true }));
 
-app.get("/", (req, res) => res.send("API is Working "));
+// ====== Routes ======
+app.get("/api/health", (req, res) => {
+  res.json({ status: "OK", message: "Server is running" });
+});
+
+app.get("/", (req, res) => {
+  res.send("API is Working ✅");
+});
+
 app.use("/api/user", userRouter);
 app.use("/api/seller", sellerRouter);
 app.use("/api/product", productRouter);
 app.use("/api/cart", cartRouter);
 app.use("/api/address", addressRouter);
 app.use("/api/order", orderRouter);
-// app.listen(port, () => {
-//   console.log(`Server is running on http://localhost:${port}`);
-// });
-module.exports = app;
+
+// ====== Export cho Vercel ======
+export default app;
