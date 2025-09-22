@@ -27,8 +27,7 @@ try {
 
 // ====== Middleware ======
 const allowedOrigins = [
-  "http://localhost:5173",
-  process.env.CLIENT_URL || "https://greencart-jynobi2gt-haus-projects-c39dc04f.vercel.app"
+  process.env.CLIENT_URL 
 ];
 
 app.use(express.json());
